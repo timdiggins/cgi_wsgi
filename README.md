@@ -15,6 +15,10 @@ However CGI is simpler for teaching purposes and helps you understand what's act
 
 So this is an adapter...
 
+## Installation
+
+```pip install cgi_wsgi```
+
 ## Usage
 
     import cgi_wsgi 
