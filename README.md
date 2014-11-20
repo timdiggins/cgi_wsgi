@@ -1,3 +1,7 @@
+# cgi_wsgi python module
+
+## Background
+
 For teaching HTTP, it's good to have a simply way of outputting HTTP responses the way that old-school CGI works:
 
 - write out the headers (delimited with newlines)
@@ -22,4 +26,17 @@ So this is an adapter...
             writeln("<!DOCTYPE html>")
             writeln("<p>some text</p>")
 
+
+Alternative:
+
+    import cgi_wsgi 
+    
+    class App(cgi_wsgi.CGIApp):
+        def response(self, environ, writeln):
+            writeln(
+    """Content-Type: text/html; charset=utf8
+    
+    <!DOCTYPE html>
+    <p>some text</p>
+    """)
 

@@ -6,25 +6,28 @@ class CGIContext:
     def __init__(self):
         self.headers = {}
         self.body = []
-        self.writingHeaders = True
+        self.writing_headers = True
 
-    def appendBody(self, lineOrLinesOrNil):
+    def append_body(self, lineOrLinesOrNil):
         # print 'BODY: %s' % lineOrLinesOrNil
         self.body.append(lineOrLinesOrNil or '')
 
-    def addHeader(self, line):
+    def add_header(self, line):
         key, value = line.split(': ', 1)
         # print 'HEAD: %s : %s' % (key,value)
         self.headers[key] = value
 
-    def writeln(self, line=None):
-        if not self.writingHeaders:
-            self.appendBody(line)
+    def writeln(self, line=''):
+        for line in line.split("\n"):
+            self.process_line(line)
+
+    def process_line(self, line):
+        if not self.writing_headers:
+            self.append_body(line)
         elif not line:
-            # print 'SWITCH'
-            self.writingHeaders = False
+            self.writing_headers = False
         else:
-            self.addHeader(line)
+            self.add_header(line)
 
 class CGIApp:
     def __call__(self, environ, start_response):

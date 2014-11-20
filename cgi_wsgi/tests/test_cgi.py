@@ -83,3 +83,28 @@ class TestWellFormedApp(BaseTestCase):
         self.assertTrue('body' in self.get_response())
         self.assertTrue('some' in self.get_response())
         self.assertTrue(self.get_response().body == 'some body')
+
+class TestMultiStringApp(BaseTestCase):
+
+    class AppUnderTest(cgi_wsgi.CGIApp):
+        def response(self, environ, writeln):
+            writeln(
+"""Content-Type: text/html; charset=utf8
+
+some body""")
+
+    def test_status_code_default(self):
+        self.assertTrue((self.get_response()).status == '200 OK')
+        self.assertTrue((self.get_response()).status_int == 200)
+
+    def test_content_type(self):
+        self.assertTrue(self.get_response().content_type == 'text/html')
+
+    def test_headers(self):
+        self.assertTrue(self.get_response().content_length > 0)
+
+    def test_body(self):
+        print("body:%s" % self.get_response().body)
+        self.assertTrue('body' in self.get_response())
+        self.assertTrue('some' in self.get_response())
+        self.assertTrue(self.get_response().body == 'some body')
