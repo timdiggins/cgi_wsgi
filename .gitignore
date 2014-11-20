@@ -1,3 +1,4 @@
 /*.egg
 *.pyc
 /dist
+/cgi_wsgi.egg-info
